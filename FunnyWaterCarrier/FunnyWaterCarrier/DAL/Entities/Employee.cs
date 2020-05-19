@@ -1,23 +1,19 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using FunnyWaterCarrier.Enums;
+using LinqToDB.Common;
 using LinqToDB.Mapping;
 
 namespace FunnyWaterCarrier.DAL.Entities {
     [Table(Name = "employee")]
-    
-    internal class Employee : INotifyPropertyChanged{
-        [Column("Id")]
-        [Identity]
-        [PrimaryKey]
-        public int Id {
-            get { return Id; }
-            set {
-                Id = value;
-                OnPropertyChanged("Id");
-            } }
-
+    public class Employee : BaseEntity {
+        public Employee() {
+            Surname = "Default";
+            Name = "Default";
+            Patronymic = "Default";
+            Birthday = DateTime.Now;
+            Gender = Gender.Man;
+        }
+        
         [Column(Name = "Surname", CanBeNull = false)]
         public string Surname { get; set; }
 
@@ -34,13 +30,22 @@ namespace FunnyWaterCarrier.DAL.Entities {
         public Gender Gender { get; set; }
 
         [Column(Name = "SubdivisionId", CanBeNull = false)]
-        public int SubdivisionId { get; set; }
+        public int? SubdivisionId { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public override bool Verify() {
+            if (Birthday >= DateTime.Now) {
+                return false;
+            }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (!SubdivisionId.HasValue) {
+                return false;
+            }
+
+            if (Surname.IsNullOrEmpty() || Name.IsNullOrEmpty()) {
+                return false;
+            }
+
+            return true;
         }
     }
-    
 }

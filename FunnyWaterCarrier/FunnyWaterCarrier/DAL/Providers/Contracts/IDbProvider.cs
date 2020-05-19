@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace FunnyWaterCarrier.DAL.Providers.Contracts {
-    internal interface IDbProvider<TEntity> {
-        Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
+    public interface IDbProvider<TEntity> {
+        List<TEntity> GetAll();
 
-        Task<int> UpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TEntity>> mutator);
+        int Update(TEntity entity);
 
-        Task<int> InsertAsync(TEntity entity);
-        Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+        int Insert(TEntity entity);
     }
 }

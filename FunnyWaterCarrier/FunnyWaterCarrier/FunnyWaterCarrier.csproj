@@ -64,6 +64,10 @@
       <HintPath>..\packages\MySql.Data.8.0.20\lib\net452\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
       <Private>True</Private>
@@ -121,43 +125,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Enums\EntityType.cs" />
+    <Compile Include="Commands\AddCommand.cs" />
+    <Compile Include="Commands\UpdateCommand.cs" />
+    <Compile Include="DAL\Entities\BaseEntity.cs" />
+    <Compile Include="EmployeeWindow.xaml.cs">
+      <DependentUpon>EmployeeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Options\ApplicationView.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="SubdivisionInfo.xaml.cs">
-      <DependentUpon>SubdivisionInfo.xaml</DependentUpon>
+    <Compile Include="OrderWindow.xaml.cs">
+      <DependentUpon>OrderWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SubdivisionWindow.xaml.cs">
+      <DependentUpon>SubdivisionWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="EmployeeWindow.xaml" />
-    <Page Include="BookingWindow.xaml" />
+    <Page Include="OrderWindow.xaml" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="EmployeeInfo.xaml.cs">
-      <DependentUpon>EmployeeWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DAL\Context\Contracts\IDataConnection.cs" />
     <Compile Include="DAL\Context\FunnyWaterDataConnection.cs" />
-    <Compile Include="DAL\Entities\Booking.cs" />
+    <Compile Include="DAL\Entities\Order.cs" />
     <Compile Include="DAL\Entities\Employee.cs" />
     <Compile Include="DAL\Entities\Subdivision.cs" />
     <Compile Include="DAL\Factories\Contracts\IDataConnectionFactory.cs" />
     <Compile Include="DAL\Factories\DataConnectionFactory.cs" />
     <Compile Include="DAL\Providers\Contracts\IDbProvider.cs" />
     <Compile Include="DAL\Providers\DbProvider.cs" />
-    <Compile Include="BookingInfo.xaml.cs">
-      <DependentUpon>BookingWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SubdivisionInfo.xaml" />
+    <Page Include="SubdivisionWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -185,6 +190,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="background.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

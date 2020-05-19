@@ -1,10 +1,5 @@
-﻿using System;
-using System.Configuration;
-using System.Windows;
-using FunnyWaterCarrier.DAL.Entities;
-using FunnyWaterCarrier.DAL.Factories;
-using FunnyWaterCarrier.DAL.Factories.Contracts;
-using FunnyWaterCarrier.DAL.Providers;
+﻿using System.Windows;
+using Ninject;
 
 namespace FunnyWaterCarrier {
     /// <summary>
@@ -12,36 +7,25 @@ namespace FunnyWaterCarrier {
     /// </summary>
     public partial class MainWindow : Window {
         public MainWindow() {
-            try {
-                IDataConnectionFactory dataConnection = new DataConnectionFactory(ConfigurationManager.AppSettings["connectionString"]);
-                DbProvider<Employee> dbEmployee = new DbProvider<Employee>(dataConnection);
-                DbProvider<Subdivision> dbSubdivision = new DbProvider<Subdivision>(dataConnection);
-                DbProvider<Booking> dbBooking = new DbProvider<Booking>(dataConnection);
-
-                //dbSubdivision.UpdateAsync(subdivision => subdivision.Id == 1, subdivision => new Subdivision() {ProductName = subdivision.ProductName + "ee"}).Wait();
-                
-            } catch (Exception exception) {
-                Console.WriteLine(exception);
-                throw;
-            }
-
             InitializeComponent();
         }
 
         private void Employee_Click(object sender, RoutedEventArgs e) {
-            EmployeeWindow employeeWindowWindow = new EmployeeWindow();
-            employeeWindowWindow.Show();
+            var employeeWindow = App.container.Get<EmployeeWindow>();
+            employeeWindow.Show();
+            Hide();
         }
 
         private void Booking_Click(object sender, RoutedEventArgs e) {
-            BookingWindow bookingWindowWindow = new BookingWindow();
-            bookingWindowWindow.Show();
-            this.Hide();
+            var orderWindow = App.container.Get<OrderWindow>();
+            orderWindow.Show();
+            Hide();
         }
 
         private void Subdivision_Click(object sender, RoutedEventArgs e) {
-            SubdivisionInfo subdivisionInfoWindow = new SubdivisionInfo();
-            subdivisionInfoWindow.Show();
+            var subdivisionWindow = App.container.Get<SubdivisionWindow>();
+            subdivisionWindow.Show();
+            Hide();
         }
     }
 }

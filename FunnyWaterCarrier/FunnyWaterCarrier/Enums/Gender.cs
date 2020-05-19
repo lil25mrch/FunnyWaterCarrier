@@ -1,6 +1,6 @@
 namespace FunnyWaterCarrier.Enums {
     public enum Gender {
-        Man = 1,
-        Woman = 2
+        Man = 0,
+        Woman = 1
     }
 }

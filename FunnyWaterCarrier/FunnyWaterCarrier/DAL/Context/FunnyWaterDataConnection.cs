@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using FunnyWaterCarrier.DAL.Context.Contracts;
 using LinqToDB;
 using LinqToDB.Data;
@@ -18,8 +17,12 @@ namespace FunnyWaterCarrier.DAL.Context {
             return GetTable<TSource>();
         }
 
-        public async Task<int> InsertWithInt32IdentityAsync<TSource>(TSource source) where TSource : class {
-            return await DataExtensions.InsertWithInt32IdentityAsync(this, source);
+        public int InsertWithInt32Identity<TSource>(TSource source) where TSource : class {
+            return DataExtensions.InsertWithInt32Identity(this, source);
+        }
+
+        public int Update<TSource>(TSource source) where TSource : class {
+            return DataExtensions.Update(this, source);
         }
     }
 }

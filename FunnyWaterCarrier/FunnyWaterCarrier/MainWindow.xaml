@@ -5,20 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FunnyWaterCarrier"
         mc:Ignorable="d"
-        Title="Веселый водовоз" Height="450" Width="800">
-   
-   
+        Title="Веселый водовоз" Height="450" Width="700">
+
+    <Window.Background>
+        <ImageBrush ImageSource="background.jpg" />
+    </Window.Background>
 
     <Grid>
-        <TextBlock Margin= "0,90,0,0" Text="Выберите таблицу для работы"  VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="20" Foreground="MidnightBlue" FontWeight="Bold" ></TextBlock>
-        <Button Background="LightBlue" BorderBrush="MidnightBlue" BorderThickness="2" Height="50" Width="200" Margin="0,150,0,0"
-                VerticalAlignment="Top" HorizontalAlignment="Center" Content="Сотрудники" 
-                Click="Employee_Click"></Button>
-        <Button Background="LightBlue" BorderBrush="MidnightBlue" BorderThickness="2" Height="50" Width="200" Margin="0,250,0,0" 
-                VerticalAlignment="Top" HorizontalAlignment="Center"  Content="Заказы"
-                Click="Booking_Click"></Button>
-        <Button Background="LightBlue" BorderBrush="MidnightBlue" BorderThickness="2" Height="50" Width="200" Margin="0,350,0,0" 
-                VerticalAlignment="Top" HorizontalAlignment="Center"  Content="Подразделения"
-                Click="Subdivision_Click"></Button>
+        <Button Background="Orange" BorderThickness="0" Height="50" Width="250"
+                Margin="0,100,0,0"
+                VerticalAlignment="Top" HorizontalAlignment="Center" Content="Сотрудники" Foreground="White"
+                FontWeight="Bold"
+                Click="Employee_Click" />
+
+        <Button Background="Orange" BorderThickness="0" Height="50" Width="250"
+                Margin="0,190,0,0"
+                VerticalAlignment="Top" HorizontalAlignment="Center" Content="Заказы" Foreground="White"
+                FontWeight="Bold"
+                Click="Booking_Click" />
+        <Button Background="Orange" BorderThickness="0" Height="50" Width="250"
+                Margin="0,280,0,0"
+                VerticalAlignment="Top" HorizontalAlignment="Center" Content="Подразделения" Foreground="White"
+                FontWeight="Bold"
+                Click="Subdivision_Click" />
+
     </Grid>
+
 </Window>

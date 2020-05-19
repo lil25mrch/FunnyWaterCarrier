@@ -17,29 +17,23 @@ namespace FunnyWaterCarrier.DAL.Providers {
         }
 
 
-        public async Task<List<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate) {
+        public List<TEntity> GetAll() {
             using (IDataConnection connection = _connectionFactory.Create()) {
-                return await connection.From<TEntity>().Where(predicate).ToListAsync();
+                return connection.From<TEntity>().ToList();
             }
         }
         
-        public async Task<int> UpdateAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TEntity>> mutator) {
+        public int Update(TEntity entity) {
             using (IDataConnection connection = _connectionFactory.Create()) {
-                int count = await connection.From<TEntity>().Where(predicate).UpdateAsync(mutator);
+                int count = connection.Update(entity);
                 return count;
             }
         }
 
-        public async Task<int> InsertAsync(TEntity entity) {
+        public int Insert(TEntity entity) {
             using (IDataConnection connection = _connectionFactory.Create()) {
-                int id = await connection.InsertWithInt32IdentityAsync(entity);
+                int id = connection.InsertWithInt32Identity(entity);
                 return id;
-            }
-        }
-
-        public async Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate) {
-            using (IDataConnection connection = _connectionFactory.Create()) {
-                return await connection.From<TEntity>().Where(predicate).SingleOrDefaultAsync();
             }
         }
     }

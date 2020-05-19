@@ -2,57 +2,56 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using FunnyWaterCarrier.Commands;
 using FunnyWaterCarrier.DAL.Entities;
 using FunnyWaterCarrier.DAL.Factories;
 using FunnyWaterCarrier.DAL.Factories.Contracts;
 using FunnyWaterCarrier.DAL.Providers;
+using FunnyWaterCarrier.DAL.Providers.Contracts;
 
 namespace FunnyWaterCarrier.Options {
-    public class ApplicationView : INotifyPropertyChanged {
-        static readonly IDataConnectionFactory dataConnection = new DataConnectionFactory(ConfigurationManager.AppSettings["connectionString"]);
-        
-        private Booking selectedTable;
-        
-        public ApplicationView() {
-            Orders = new ObservableCollection<Booking> {
-             
-                new Booking {ProductName = "Газированная вода", EmployeeId = 1},
-                new Booking {ProductName = "Негазированная вода", EmployeeId = 1},
-                new Booking {ProductName = "Вода", EmployeeId = 2},
-                new Booking {ProductName = "Сок", EmployeeId = 2},
-                new Booking {ProductName = "Йогурт", EmployeeId = 4},
-                new Booking {ProductName = "Хлеб", EmployeeId = 4},
-            };
+    public class ApplicationView<TEntity> where TEntity : BaseEntity, new() {
+        private readonly IDbProvider<TEntity> _dbProvider;
+        public ApplicationView(IDbProvider<TEntity> dbProvider) {
+            _dbProvider = dbProvider;
+            Entities = new ObservableCollection<TEntity>(_dbProvider.GetAll());;
         }
-        private RelayCommand addCommand;
-        public RelayCommand AddCommand
+  
+        public ObservableCollection<TEntity> Entities { get; set; }
+
+        private TEntity _selectedEntity;
+        public TEntity SelectedEntity {
+            get => _selectedEntity;
+            set => _selectedEntity = value;
+        }
+
+        private AddCommand _addUpdateCommand;
+        public AddCommand AddUpdateCommand
         {
             get
             {
-                return addCommand ??
-                       (addCommand = new RelayCommand(obj =>
-                       {
-                           Booking order = new Booking(){ProductName = "Новый товар", EmployeeId = 0};
-                           Orders.Insert(0, order);
-                           selectedTable = order;
+                return _addUpdateCommand ??
+                       (_addUpdateCommand = new AddCommand(obj => {
+                           TEntity entity = new TEntity();
+                           int entityId = _dbProvider.Insert(entity);
+                           entity.Id = entityId;
+                           Entities.Add(entity);
                        }));
             }
         }
-        public ObservableCollection<Booking> Orders { get; set; }
-
-        public Booking SelectedTable {
-            get { return selectedTable; }
-            set {
-                selectedTable = value;
-                OnPropertyChanged("SelectedTable");
+        
+        private UpdateCommand _updateUpdateCommand;
+        public UpdateCommand UpdateCommand
+        {
+            get
+            {
+                return _updateUpdateCommand ??
+                       (_updateUpdateCommand = new UpdateCommand(obj => {
+                           TEntity entity = obj as TEntity;
+                           _dbProvider.Update(entity);
+                       }));
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string prop = "") {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

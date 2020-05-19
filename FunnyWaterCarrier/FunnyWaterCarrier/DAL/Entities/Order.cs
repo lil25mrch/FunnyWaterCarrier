@@ -2,20 +2,20 @@
 using LinqToDB.Mapping;
 
 namespace FunnyWaterCarrier.DAL.Entities {
-    [Table(Name = "subdivision")]
-    public class Subdivision : BaseEntity {
-        public Subdivision() {
-            Name = "Default";
+    [Table(Name = "order")]
+    public class Order : BaseEntity{
+        public Order() {
+            ProductName = "Default";
         }
         
-        [Column(Name = "Name", CanBeNull = false)]
-        public string Name { get; set; }
+        [Column(Name = "ProductName", CanBeNull = false)]
+        public string ProductName { get; set; }
 
         [Column(Name = "EmployeeId", CanBeNull = false)]
         public int? EmployeeId { get; set; }
 
         public override bool Verify() {
-            if (!EmployeeId.HasValue || Name.IsNullOrEmpty()) {
+            if (!EmployeeId.HasValue || ProductName.IsNullOrEmpty()) {
                 return false;
             }
 
